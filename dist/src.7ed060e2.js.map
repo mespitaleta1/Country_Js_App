@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.js"],"names":["App","document","querySelector","console","log"],"mappings":"AAAA,IAAMA,GAAG,GAAGC,QAAQ,CAACC,aAAT,CAAuB,MAAvB,CAAZ;AACAC,OAAO,CAACC,GAAR,CAAYJ,GAAZ","file":"src.7ed060e2.js","sourceRoot":"..\\public","sourcesContent":["const App = document.querySelector(\"#App\");\r\nconsole.log(App);\r\n"]}
