@@ -117,68 +117,74 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../src/template/Card.js":[function(require,module,exports) {
-"use strict";
+})({"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
 
-var Card = function Card(countryData) {
-  var getTemplateCard = function getTemplateCard(obj) {
-    return "\n        <div class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <img src=\"").concat(obj.flag, "\"/>\n        </div>");
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
   };
 
-  var cardView = countryData.map(function (item) {
-    return getTemplateCard(item);
-  });
-  return cardView;
-};
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
 
-var _default = Card;
-exports.default = _default;
-},{}],"../src/utils/getData.js":[function(require,module,exports) {
-"use strict";
+var cssTimeout = null;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var API_URL = "https://restcountries.eu/rest/v2/all/";
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
 
-var getData = function getData() {
-  return fetch(API_URL).then(function (response) {
-    return response.json();
-  });
-};
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
 
-var _default = getData;
-exports.default = _default;
-},{}],"../src/index.js":[function(require,module,exports) {
-"use strict";
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
 
-var _Card = _interopRequireDefault(require("./template/Card"));
+    cssTimeout = null;
+  }, 50);
+}
 
-var _getData = _interopRequireDefault(require("./utils/getData.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var App = document.querySelector("#App");
-var mainTitle = document.createElement("div");
-mainTitle.classList.add("main-title");
-mainTitle.textContent = "country app";
-var container = document.createElement("div");
-container.setAttribute("class", "content-app");
-(0, _getData.default)().then(function (data) {
-  container.innerHTML = (0, _Card.default)(data);
-}).catch(function (e) {
-  return console.log(e);
-});
-/*data = [{name: "colombia", flag: "http:/#", currencies: []}...];*/
-
-App.append(mainTitle, container);
-},{"./template/Card":"../src/template/Card.js","./utils/getData.js":"../src/utils/getData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+module.exports = reloadCSS;
+},{"./bundle-url":"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -382,5 +388,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","../src/index.js"], null)
-//# sourceMappingURL=/src.7ed060e2.js.map
+},{}]},{},["../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/index.js.map
