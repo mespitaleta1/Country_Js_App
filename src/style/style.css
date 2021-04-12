@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  color: #000;
+  font-family: "Inter", sans-serif;
 }
 
 .main-title {
@@ -24,3 +26,94 @@ body {
   align-items: center;
   text-transform: uppercase;
 }
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: start;
+  margin: 50px;
+}
+
+.filter-section {
+  flex-basis: 30%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+form label {
+  margin: 5px;
+}
+
+.filter-txt,
+.filter-btn {
+  width: 200px;
+  margin-top: 20px;
+}
+
+.filter-txt {
+  border: 0.5px solid transparent;
+  outline: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+}
+
+.filter-btn {
+  cursor: pointer;
+}
+
+.content-app {
+  flex-basis: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.main-card {
+  border: 0.5px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  width: 245px;
+  margin: 11px;
+}
+
+.country-card_name {
+  margin-bottom: 0;
+}
+
+.country-card_capital {
+  display: block;
+}
+
+.country-card_name,
+.country-card_capital {
+  margin-left: 10px;
+}
+
+.country-card_content {
+  display: flex;
+  justify-content: space-around;
+}
+
+.country-card_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.country-card_flag {
+  max-width: 100px; /*65px*/
+  height: 60px;
+  border-radius: 5px;
+  border: 0.3px solid #ccc;
+  object-fit: cover;
+  margin-top: 5px;
+}
+
+/*icon img url:
+  continent: "https://i.imgur.com/F8PsJdu.png";
+  currency: "https://i.imgur.com/A85woq6.png"
+  language:"https://i.imgur.com/KdvpkCA.png"*/

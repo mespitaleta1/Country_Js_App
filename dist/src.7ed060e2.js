@@ -127,7 +127,7 @@ exports.default = void 0;
 
 var Card = function Card(countryData) {
   var getTemplateCard = function getTemplateCard(obj) {
-    return "\n        <div class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <img src=\"").concat(obj.flag, "\"/>\n        </div>");
+    return "\n        <div class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <span class=\"country-card_capital\">").concat(obj.capital, "</span>\n            <div class=\"country-card_content\">\n              <img class=\"country-card_flag\" src=\"").concat(obj.flag, "\"/>\n\n              <div class=\"country-card_info\">\n                <span class=\"region\"> ").concat(obj.region, " </span>\n                <span class=\"lang\"> ").concat(obj.languages[0]["iso639_2"], " </span>\n                <span class=\"currency\"> ").concat(obj.currencies[0].code, "</span>\n              </div>\n           </div>\n        </div>");
   };
 
   var cardView = countryData.map(function (item) {
@@ -137,6 +137,21 @@ var Card = function Card(countryData) {
 };
 
 var _default = Card;
+exports.default = _default;
+},{}],"../src/utils/filter.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var filterForm = function filterForm() {
+  var filters = "\n        <form>\n        <label> Language <input type=\"checkbox\" value=\"language\"/></label>\n        <label> Continent <input type=\"checkbox\" value=\"continent\"/></label>\n        <label> Name  <input type=\"checkbox\" name=\"name\"/></label>\n        <label> Capital city <input type=\"checkbox\" value=\"capital\"/></label>\n        <label> Calling code <input type=\"checkbox\" value=\"callCode\"/></label>\n        <input class=\"filter-txt\" type=\"text\" placeholder=\"value\" />\n        <input  class=\"filter-btn\" type=\"button\" value=\"submit\"/>\n        </form>\n    ";
+  return filters;
+};
+
+var _default = filterForm;
 exports.default = _default;
 },{}],"../src/utils/getData.js":[function(require,module,exports) {
 "use strict";
@@ -160,6 +175,8 @@ exports.default = _default;
 
 var _Card = _interopRequireDefault(require("./template/Card"));
 
+var _filter = _interopRequireDefault(require("./utils/filter.js"));
+
 var _getData = _interopRequireDefault(require("./utils/getData.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -168,17 +185,23 @@ var App = document.querySelector("#App");
 var mainTitle = document.createElement("div");
 mainTitle.classList.add("main-title");
 mainTitle.textContent = "country app";
+var wrapper = document.createElement("div");
+wrapper.className = "wrapper";
 var container = document.createElement("div");
 container.setAttribute("class", "content-app");
+var filter = document.createElement("div");
+filter.setAttribute("class", "filter-section");
+filter.innerHTML = (0, _filter.default)();
 (0, _getData.default)().then(function (data) {
-  container.innerHTML = (0, _Card.default)(data);
+  container.innerHTML = (0, _Card.default)(data).join(" ");
 }).catch(function (e) {
   return console.log(e);
 });
 /*data = [{name: "colombia", flag: "http:/#", currencies: []}...];*/
 
-App.append(mainTitle, container);
-},{"./template/Card":"../src/template/Card.js","./utils/getData.js":"../src/utils/getData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+App.append(mainTitle, wrapper);
+wrapper.append(filter, container);
+},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -206,7 +229,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56249" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62159" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
