@@ -127,7 +127,7 @@ exports.default = void 0;
 
 var Card = function Card(countryData) {
   var getTemplateCard = function getTemplateCard(obj) {
-    return "\n        <div class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <span class=\"country-card_capital\">").concat(obj.capital, "</span>\n            <div class=\"country-card_content\">\n              <img class=\"country-card_flag\" src=\"").concat(obj.flag, "\"/>\n\n              <div class=\"country-card_info\">\n                <span class=\"region\"> ").concat(obj.region, " </span>\n                <span class=\"lang\"> ").concat(obj.languages[0]["iso639_2"], " </span>\n                <span class=\"currency\"> ").concat(obj.currencies[0].code, "</span>\n              </div>\n           </div>\n        </div>");
+    return "\n        <div class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <span class=\"country-card_capital\">").concat(obj.capital, "</span>\n            <div class=\"country-card_content\">\n              <img class=\"country-card_flag\" src=\"").concat(obj.flag, "\"/>\n\n              <div class=\"country-card_info\">\n                <span class=\"region\"><img src=\"https://i.imgur.com/F8PsJdu.png\"/>").concat(obj.region, "</span>\n                <span class=\"lang\"><img src=\"https://i.imgur.com/A85woq6.png\"/>").concat(obj.languages[0]["iso639_2"], "</span>\n                <span class=\"currency\"><img src=\"https://i.imgur.com/KdvpkCA.png\"/>").concat(obj.currencies[0].code, "</span>\n              </div>\n           </div>\n        </div>");
   };
 
   var cardView = countryData.map(function (item) {
@@ -147,7 +147,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var filterForm = function filterForm() {
-  var filters = "\n        <form>\n        <label> Language <input type=\"checkbox\" value=\"language\"/></label>\n        <label> Continent <input type=\"checkbox\" value=\"continent\"/></label>\n        <label> Name  <input type=\"checkbox\" name=\"name\"/></label>\n        <label> Capital city <input type=\"checkbox\" value=\"capital\"/></label>\n        <label> Calling code <input type=\"checkbox\" value=\"callCode\"/></label>\n        <input class=\"filter-txt\" type=\"text\" placeholder=\"value\" />\n        <input  class=\"filter-btn\" type=\"button\" value=\"submit\"/>\n        </form>\n    ";
+  var filters = "\n        <form>\n        <label> Language <input type=\"checkbox\" value=\"language\"/></label>\n        <label> Continent <input type=\"checkbox\" value=\"continent\"/></label>\n        <label> Name  <input type=\"checkbox\" name=\"name\"/></label>\n        <label> Capital city <input type=\"checkbox\" value=\"capital\"/></label>\n        <label> Calling code <input type=\"checkbox\" value=\"callCode\"/></label>\n\n        <input class=\"filter-txt\" type=\"text\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn\" type=\"button\" value=\"Apply\"/>\n            <input  class=\"filter-btn\" type=\"button\" value=\"Clean\"/>\n        </div>\n        </form>\n    ";
   return filters;
 };
 

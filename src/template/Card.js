@@ -7,9 +7,9 @@ const Card = (countryData) => {
               <img class="country-card_flag" src="${obj.flag}"/>
 
               <div class="country-card_info">
-                <span class="region"> ${obj.region} </span>
-                <span class="lang"> ${obj.languages[0]["iso639_2"]} </span>
-                <span class="currency"> ${obj.currencies[0].code}</span>
+                <span class="region"><img src="https://i.imgur.com/F8PsJdu.png"/>${obj.region}</span>
+                <span class="lang"><img src="https://i.imgur.com/A85woq6.png"/>${obj.languages[0]["iso639_2"]}</span>
+                <span class="currency"><img src="https://i.imgur.com/KdvpkCA.png"/>${obj.currencies[0].code}</span>
               </div>
            </div>
         </div>`;

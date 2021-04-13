@@ -56,14 +56,23 @@ form label {
 }
 
 .filter-txt {
-  border: 0.5px solid transparent;
+  border: transparent;
   outline: none;
   border-bottom: 1px solid #ccc;
   padding: 5px;
+  font-family: "Inter", sans-serif;
 }
 
 .filter-btn {
   cursor: pointer;
+  width: 100px;
+  border: solid transparent;
+  border-radius: 14px;
+  color: #fff;
+  background: #6767ff; /*#7f7fd5*/
+  padding: 5px;
+  letter-spacing: 0.5px;
+  font-family: "Inter", sans-serif;
 }
 
 .content-app {
@@ -79,6 +88,11 @@ form label {
   border-radius: 5px;
   width: 245px;
   margin: 11px;
+  cursor: pointer;
+}
+
+.main-card:hover {
+  box-shadow: 0px 1px 12px 3px rgb(0 0 0 / 20%);
 }
 
 .country-card_name {
@@ -94,7 +108,8 @@ form label {
   margin-left: 10px;
 }
 
-.country-card_content {
+.country-card_content,
+span {
   display: flex;
   justify-content: space-around;
 }
@@ -113,7 +128,7 @@ form label {
   margin-top: 5px;
 }
 
-/*icon img url:
-  continent: "https://i.imgur.com/F8PsJdu.png";
-  currency: "https://i.imgur.com/A85woq6.png"
-  language:"https://i.imgur.com/KdvpkCA.png"*/
+span img {
+  width: 15px;
+  margin: 3px;
+}
