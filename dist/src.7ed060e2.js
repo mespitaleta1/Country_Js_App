@@ -147,7 +147,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var filterForm = function filterForm() {
-  var filters = "\n        <form>\n        <label> Language <input type=\"checkbox\" value=\"language\"/></label>\n        <label> Continent <input type=\"checkbox\" value=\"continent\"/></label>\n        <label> Name  <input type=\"checkbox\" name=\"name\"/></label>\n        <label> Capital city <input type=\"checkbox\" value=\"capital\"/></label>\n        <label> Calling code <input type=\"checkbox\" value=\"callCode\"/></label>\n\n        <input class=\"filter-txt\" type=\"text\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn\" type=\"button\" value=\"Apply\"/>\n            <input  class=\"filter-btn\" type=\"button\" value=\"Clean\"/>\n        </div>\n        </form>\n    ";
+  var filters = "\n        <form>\n        <label><input type=\"checkbox\" class=\"lang-field\" value=\"language\"/>  Language</label>\n        <label><input type=\"checkbox\" class=\"region-field\" value=\"continent\"/> Continent</label>\n        <label><input type=\"checkbox\" class=\"name-field\" value=\"name\"/>      Name</label>\n        <label><input type=\"checkbox\" class=\"capital-field\" value=\"capital\"/>   Capital city</label>\n        <label><input type=\"checkbox\" class=\"call-field\" value=\"callCode\"/>  Calling code</label>\n\n        <input class=\"filter-txt\" type=\"text\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn apply\" type=\"button\" value=\"Filter\"/>\n            <input  class=\"filter-btn clean\" type=\"button\" value=\"Clean\"/>\n        </div>\n        </form>\n    ";
   return filters;
 };
 
@@ -170,6 +170,49 @@ var getData = function getData() {
 
 var _default = getData;
 exports.default = _default;
+},{}],"../src/utils/getFilterData.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var BASE_API_URL = "https://restcountries.eu/rest/v2/";
+var allCountries = "all/";
+var lang = "lang/";
+var continent = "region/";
+var name = "name/";
+var capital = "capital/";
+var call = "callingCode/";
+
+var makeUrl = function makeUrl(filter) {
+  var useApi = "";
+
+  if (filter === "language") {
+    useApi = "".concat(BASE_API_URL).concat(lang);
+  } else if (filter === "continent") {
+    useApi = "".concat(BASE_API_URL).concat(continent);
+  } else if (filter === "name") {
+    useApi = "".concat(BASE_API_URL).concat(name);
+  } else if (filter === "capital") {
+    useApi = "".concat(BASE_API_URL).concat(capital);
+  } else if (filter === "callCode") {
+    useApi = "".concat(BASE_API_URL).concat(call);
+  } else {
+    useApi = "".concat(BASE_API_URL).concat(allCountries);
+  }
+
+  return useApi;
+};
+/*const getFilterData = () => {
+  return fetch(`${BASE_FILTER_URL}${capitalFilter}bogota`)
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+};*/
+
+
+var _default = makeUrl;
+exports.default = _default;
 },{}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -179,29 +222,69 @@ var _filter = _interopRequireDefault(require("./utils/filter.js"));
 
 var _getData = _interopRequireDefault(require("./utils/getData.js"));
 
+var _getFilterData = _interopRequireDefault(require("./utils/getFilterData.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = document.querySelector("#App");
-var mainTitle = document.createElement("div");
+var App = document.querySelector("#App"); //getting the div element to the HTML
+
+var mainTitle = document.createElement("div"); //creating a new div inside the App div in the HTML, who contain the title of the APP.
+
 mainTitle.classList.add("main-title");
 mainTitle.textContent = "country app";
-var wrapper = document.createElement("div");
+var wrapper = document.createElement("div"); //creating a second div who will contain the body of the app -the filter and the country cards.
+
 wrapper.className = "wrapper";
-var container = document.createElement("div");
+var container = document.createElement("div"); //this new diw will contain the render content cards.
+
 container.setAttribute("class", "content-app");
-var filter = document.createElement("div");
+var filter = document.createElement("div"); //this other div will contain the filter section with the respectives inputs.
+
 filter.setAttribute("class", "filter-section");
 filter.innerHTML = (0, _filter.default)();
+var searchInput = filter.querySelector("input.filter-txt"); //getting the input elem in the DOM of the filter section.
+
+var applyBtn = filter.querySelector("input.apply"); //getting the input filter-btn elem in the DOM of the filter section.
+
+var cleanBtn = filter.querySelector("input.clean"); //getting the input clean-btn elem in the DOM of the filter section.
+
+var lang = filter.querySelector("input.lang-field"); //getting all the inputs of the filter section.
+
+var call = filter.querySelector("input.call-field");
+var name = filter.querySelector("input.name-field");
 (0, _getData.default)().then(function (data) {
+  /*data = [{name: "colombia", flag: "http:/#", currencies: []}...];*/
   container.innerHTML = (0, _Card.default)(data).join(" ");
 }).catch(function (e) {
   return console.log(e);
 });
-/*data = [{name: "colombia", flag: "http:/#", currencies: []}...];*/
+applyBtn.addEventListener("click", function showValue() {
+  var newFilterUrl = "";
+
+  if (lang.checked) {
+    var inputValue = searchInput.value;
+    var filterValue = lang.value;
+    var url = (0, _getFilterData.default)(filterValue);
+    newFilterUrl = "".concat(url).concat(inputValue);
+    return console.log(newFilterUrl);
+  } else if (name.checked) {
+    var inputValue = searchInput.value;
+    var filterValue = name.value;
+    var url = (0, _getFilterData.default)(filterValue);
+    newFilterUrl = "".concat(url).concat(inputValue);
+    return newFilterUrl;
+  } else if (call.checked) {
+    var inputValue = searchInput.value;
+    var filterValue = call.value;
+    var url = (0, _getFilterData.default)(filterValue);
+    newFilterUrl = "".concat(url).concat(inputValue);
+    return console.log(newFilterUrl);
+  }
+}); //console.log(getFilterData());
 
 App.append(mainTitle, wrapper);
 wrapper.append(filter, container);
-},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/getFilterData.js":"../src/utils/getFilterData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -229,7 +312,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62159" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50345" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,17 +1,17 @@
 const filterForm = () => {
   const filters = `
         <form>
-        <label> Language <input type="checkbox" value="language"/></label>
-        <label> Continent <input type="checkbox" value="continent"/></label>
-        <label> Name  <input type="checkbox" name="name"/></label>
-        <label> Capital city <input type="checkbox" value="capital"/></label>
-        <label> Calling code <input type="checkbox" value="callCode"/></label>
+        <label><input type="checkbox" class="lang-field" value="language"/>  Language</label>
+        <label><input type="checkbox" class="region-field" value="continent"/> Continent</label>
+        <label><input type="checkbox" class="name-field" value="name"/>      Name</label>
+        <label><input type="checkbox" class="capital-field" value="capital"/>   Capital city</label>
+        <label><input type="checkbox" class="call-field" value="callCode"/>  Calling code</label>
 
         <input class="filter-txt" type="text" />
 
         <div class="filter-btns">
-            <input  class="filter-btn" type="button" value="Apply"/>
-            <input  class="filter-btn" type="button" value="Clean"/>
+            <input  class="filter-btn apply" type="button" value="Filter"/>
+            <input  class="filter-btn clean" type="button" value="Clean"/>
         </div>
         </form>
     `;
