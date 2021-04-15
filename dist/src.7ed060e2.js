@@ -170,7 +170,7 @@ var getData = function getData() {
 
 var _default = getData;
 exports.default = _default;
-},{}],"../src/utils/getFilterData.js":[function(require,module,exports) {
+},{}],"../src/utils/urlFilterMaker.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -204,14 +204,24 @@ var makeUrl = function makeUrl(filter) {
 
   return useApi;
 };
-/*const getFilterData = () => {
-  return fetch(`${BASE_FILTER_URL}${capitalFilter}bogota`)
-    .then((response) => response.json())
-    .then((data) => console.log(data));
-};*/
-
 
 var _default = makeUrl;
+exports.default = _default;
+},{}],"../src/utils/getFilterData.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var getFilterData = function getFilterData(newUrl) {
+  return fetch(newUrl).then(function (response) {
+    return response.json();
+  });
+};
+
+var _default = getFilterData;
 exports.default = _default;
 },{}],"../src/index.js":[function(require,module,exports) {
 "use strict";
@@ -221,6 +231,8 @@ var _Card = _interopRequireDefault(require("./template/Card"));
 var _filter = _interopRequireDefault(require("./utils/filter.js"));
 
 var _getData = _interopRequireDefault(require("./utils/getData.js"));
+
+var _urlFilterMaker = _interopRequireDefault(require("./utils/urlFilterMaker.js"));
 
 var _getFilterData = _interopRequireDefault(require("./utils/getFilterData.js"));
 
@@ -242,16 +254,15 @@ var filter = document.createElement("div"); //this other div will contain the fi
 
 filter.setAttribute("class", "filter-section");
 filter.innerHTML = (0, _filter.default)();
-var searchInput = filter.querySelector("input.filter-txt"); //getting the input elem in the DOM of the filter section.
+var searchInput = filter.querySelector("input.filter-txt");
+var applyBtn = filter.querySelector("input.apply");
+var cleanBtn = filter.querySelector("input.clean"); //getting each of the filters:
 
-var applyBtn = filter.querySelector("input.apply"); //getting the input filter-btn elem in the DOM of the filter section.
-
-var cleanBtn = filter.querySelector("input.clean"); //getting the input clean-btn elem in the DOM of the filter section.
-
-var lang = filter.querySelector("input.lang-field"); //getting all the inputs of the filter section.
-
-var call = filter.querySelector("input.call-field");
+var lang = filter.querySelector("input.lang-field");
+var continent = filter.querySelector("input.region-field");
 var name = filter.querySelector("input.name-field");
+var capital = filter.querySelector("input.capital-field");
+var call = filter.querySelector("input.call-field");
 (0, _getData.default)().then(function (data) {
   /*data = [{name: "colombia", flag: "http:/#", currencies: []}...];*/
   container.innerHTML = (0, _Card.default)(data).join(" ");
@@ -260,31 +271,53 @@ var name = filter.querySelector("input.name-field");
 });
 applyBtn.addEventListener("click", function showValue() {
   var newFilterUrl = "";
+  var inputValue = searchInput.value;
 
   if (lang.checked) {
-    var inputValue = searchInput.value;
-    var filterValue = lang.value;
-    var url = (0, _getFilterData.default)(filterValue);
-    newFilterUrl = "".concat(url).concat(inputValue);
-    return console.log(newFilterUrl);
+    var _filterValue = lang.value;
+
+    var _url = (0, _urlFilterMaker.default)(_filterValue);
+
+    newFilterUrl = "".concat(_url).concat(inputValue);
+    return newFilterUrl;
+  } else if (continent.checked) {
+    var _filterValue2 = continent.value;
+
+    var _url2 = (0, _urlFilterMaker.default)(_filterValue2);
+
+    newFilterUrl = "".concat(_url2).concat(inputValue);
+    return newFilterUrl;
   } else if (name.checked) {
-    var inputValue = searchInput.value;
-    var filterValue = name.value;
-    var url = (0, _getFilterData.default)(filterValue);
-    newFilterUrl = "".concat(url).concat(inputValue);
+    var _filterValue3 = name.value;
+
+    var _url3 = (0, _urlFilterMaker.default)(_filterValue3);
+
+    newFilterUrl = "".concat(_url3).concat(inputValue);
+    return newFilterUrl;
+  } else if (capital.checked) {
+    var _filterValue4 = capital.value;
+
+    var _url4 = (0, _urlFilterMaker.default)(_filterValue4);
+
+    newFilterUrl = "".concat(_url4).concat(inputValue);
     return newFilterUrl;
   } else if (call.checked) {
-    var inputValue = searchInput.value;
     var filterValue = call.value;
-    var url = (0, _getFilterData.default)(filterValue);
+    var url = (0, _urlFilterMaker.default)(filterValue);
     newFilterUrl = "".concat(url).concat(inputValue);
-    return console.log(newFilterUrl);
+    return newFilterUrl;
   }
+  /*getFilterData(newFilterUrl)
+    .then((data) => {
+      container.innerHTML = Card(data).join(" ");
+    })
+    .catch((e) => console.log("This is not workin"));*/
+
 }); //console.log(getFilterData());
 
 App.append(mainTitle, wrapper);
 wrapper.append(filter, container);
-},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/getFilterData.js":"../src/utils/getFilterData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/urlFilterMaker.js":"../src/utils/urlFilterMaker.js","./utils/getFilterData.js":"../src/utils/getFilterData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

@@ -1,7 +1,8 @@
 import Card from "./template/Card";
 import filterForm from "./utils/filter.js";
 import getData from "./utils/getData.js";
-import makeUrl from "./utils/getFilterData.js";
+import makeUrl from "./utils/urlFilterMaker.js";
+import getFilterData from "./utils/getFilterData.js";
 
 const App = document.querySelector("#App"); //getting the div element to the HTML
 
@@ -19,12 +20,16 @@ const filter = document.createElement("div"); //this other div will contain the 
 filter.setAttribute("class", "filter-section");
 filter.innerHTML = filterForm();
 
-const searchInput = filter.querySelector("input.filter-txt"); //getting the input elem in the DOM of the filter section.
-const applyBtn = filter.querySelector("input.apply"); //getting the input filter-btn elem in the DOM of the filter section.
-const cleanBtn = filter.querySelector("input.clean"); //getting the input clean-btn elem in the DOM of the filter section.
-const lang = filter.querySelector("input.lang-field"); //getting all the inputs of the filter section.
-const call = filter.querySelector("input.call-field");
+const searchInput = filter.querySelector("input.filter-txt");
+const applyBtn = filter.querySelector("input.apply");
+const cleanBtn = filter.querySelector("input.clean");
+
+//getting each of the filters:
+const lang = filter.querySelector("input.lang-field");
+const continent = filter.querySelector("input.region-field");
 const name = filter.querySelector("input.name-field");
+const capital = filter.querySelector("input.capital-field");
+const call = filter.querySelector("input.call-field");
 
 getData()
   .then((data) => {
@@ -35,25 +40,40 @@ getData()
 
 applyBtn.addEventListener("click", function showValue() {
   let newFilterUrl = "";
+  let inputValue = searchInput.value;
+
   if (lang.checked) {
-    var inputValue = searchInput.value;
-    var filterValue = lang.value;
-    var url = makeUrl(filterValue);
+    let filterValue = lang.value;
+    let url = makeUrl(filterValue);
     newFilterUrl = `${url}${inputValue}`;
-    return console.log(newFilterUrl);
+    return newFilterUrl;
+  } else if (continent.checked) {
+    let filterValue = continent.value;
+    let url = makeUrl(filterValue);
+    newFilterUrl = `${url}${inputValue}`;
+    return newFilterUrl;
   } else if (name.checked) {
-    var inputValue = searchInput.value;
-    var filterValue = name.value;
-    var url = makeUrl(filterValue);
+    let filterValue = name.value;
+    let url = makeUrl(filterValue);
+    newFilterUrl = `${url}${inputValue}`;
+    return newFilterUrl;
+  } else if (capital.checked) {
+    let filterValue = capital.value;
+    let url = makeUrl(filterValue);
     newFilterUrl = `${url}${inputValue}`;
     return newFilterUrl;
   } else if (call.checked) {
-    var inputValue = searchInput.value;
     var filterValue = call.value;
     var url = makeUrl(filterValue);
     newFilterUrl = `${url}${inputValue}`;
-    return console.log(newFilterUrl);
+    return newFilterUrl;
   }
+
+  /*getFilterData(newFilterUrl)
+    .then((data) => {
+      container.innerHTML = Card(data).join(" ");
+    })
+    .catch((e) => console.log("This is not workin"));*/
 });
 
 //console.log(getFilterData());
