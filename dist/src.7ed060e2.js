@@ -147,7 +147,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var filterForm = function filterForm() {
-  var filters = "\n        <form>\n        <label><input type=\"checkbox\" class=\"lang-field\" value=\"language\"/>  Language</label>\n        <label><input type=\"checkbox\" class=\"region-field\" value=\"continent\"/> Continent</label>\n        <label><input type=\"checkbox\" class=\"name-field\" value=\"name\"/>      Name</label>\n        <label><input type=\"checkbox\" class=\"capital-field\" value=\"capital\"/>   Capital city</label>\n        <label><input type=\"checkbox\" class=\"call-field\" value=\"callCode\"/>  Calling code</label>\n\n        <input class=\"filter-txt\" type=\"text\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn apply\" type=\"button\" value=\"Filter\"/>\n            <input  class=\"filter-btn clean\" type=\"button\" value=\"Clean\"/>\n        </div>\n        </form>\n    ";
+  var filters = "\n        <form>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"lang/\"/>     Language</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"region/\"/>  Continent</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"name/\"/>    Name</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"capital/\"/> Capital city</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"callingcode/\"/> Calling code</label>\n\n        <input class=\"filter-txt\" type=\"text\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn apply\" type=\"button\" value=\"Filter\"/>\n            <input  class=\"filter-btn clean\" type=\"button\" value=\"Clean\"/>\n        </div>\n        </form>\n    ";
   return filters;
 };
 
@@ -178,31 +178,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var BASE_API_URL = "https://restcountries.eu/rest/v2/";
-var allCountries = "all/";
-var lang = "lang/";
-var continent = "region/";
-var name = "name/";
-var capital = "capital/";
-var call = "callingCode/";
 
-var makeUrl = function makeUrl(filter) {
-  var useApi = "";
-
-  if (filter === "language") {
-    useApi = "".concat(BASE_API_URL).concat(lang);
-  } else if (filter === "continent") {
-    useApi = "".concat(BASE_API_URL).concat(continent);
-  } else if (filter === "name") {
-    useApi = "".concat(BASE_API_URL).concat(name);
-  } else if (filter === "capital") {
-    useApi = "".concat(BASE_API_URL).concat(capital);
-  } else if (filter === "callCode") {
-    useApi = "".concat(BASE_API_URL).concat(call);
-  } else {
-    useApi = "".concat(BASE_API_URL).concat(allCountries);
-  }
-
-  return useApi;
+var makeUrl = function makeUrl(filterField) {
+  return "".concat(BASE_API_URL).concat(filterField);
 };
 
 var _default = makeUrl;
@@ -238,83 +216,49 @@ var _getFilterData = _interopRequireDefault(require("./utils/getFilterData.js"))
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = document.querySelector("#App"); //getting the div element to the HTML
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var mainTitle = document.createElement("div"); //creating a new div inside the App div in the HTML, who contain the title of the APP.
-
+var App = document.querySelector("#App");
+var mainTitle = document.createElement("div");
 mainTitle.classList.add("main-title");
 mainTitle.textContent = "country app";
-var wrapper = document.createElement("div"); //creating a second div who will contain the body of the app -the filter and the country cards.
-
+var wrapper = document.createElement("div");
 wrapper.className = "wrapper";
-var container = document.createElement("div"); //this new diw will contain the render content cards.
-
+var container = document.createElement("div");
 container.setAttribute("class", "content-app");
-var filter = document.createElement("div"); //this other div will contain the filter section with the respectives inputs.
-
+var filter = document.createElement("div");
 filter.setAttribute("class", "filter-section");
 filter.innerHTML = (0, _filter.default)();
 var searchInput = filter.querySelector("input.filter-txt");
 var applyBtn = filter.querySelector("input.apply");
-var cleanBtn = filter.querySelector("input.clean"); //getting each of the filters:
+var cleanBtn = filter.querySelector("input.clean"); //getting the filters:
 
-var lang = filter.querySelector("input.lang-field");
-var continent = filter.querySelector("input.region-field");
-var name = filter.querySelector("input.name-field");
-var capital = filter.querySelector("input.capital-field");
-var call = filter.querySelector("input.call-field");
+var filters = filter.querySelectorAll("input.filter");
 (0, _getData.default)().then(function (data) {
-  /*data = [{name: "colombia", flag: "http:/#", currencies: []}...];*/
   container.innerHTML = (0, _Card.default)(data).join(" ");
 }).catch(function (e) {
   return console.log(e);
 });
 applyBtn.addEventListener("click", function showValue() {
-  var newFilterUrl = "";
-  var inputValue = searchInput.value;
+  var filterUrl;
+  var finalFilterUrl;
+  var TextValue = searchInput.value;
+  filters.forEach(function (filter) {
+    if (filter.checked) {
+      var filterValue = filter.value;
+      filterUrl = (0, _urlFilterMaker.default)(filterValue);
+      finalFilterUrl = "".concat(filterUrl).concat(TextValue);
+      console.log(_typeof(TextValue));
+      return finalFilterUrl;
+    }
 
-  if (lang.checked) {
-    var _filterValue = lang.value;
-
-    var _url = (0, _urlFilterMaker.default)(_filterValue);
-
-    newFilterUrl = "".concat(_url).concat(inputValue);
-    return newFilterUrl;
-  } else if (continent.checked) {
-    var _filterValue2 = continent.value;
-
-    var _url2 = (0, _urlFilterMaker.default)(_filterValue2);
-
-    newFilterUrl = "".concat(_url2).concat(inputValue);
-    return newFilterUrl;
-  } else if (name.checked) {
-    var _filterValue3 = name.value;
-
-    var _url3 = (0, _urlFilterMaker.default)(_filterValue3);
-
-    newFilterUrl = "".concat(_url3).concat(inputValue);
-    return newFilterUrl;
-  } else if (capital.checked) {
-    var _filterValue4 = capital.value;
-
-    var _url4 = (0, _urlFilterMaker.default)(_filterValue4);
-
-    newFilterUrl = "".concat(_url4).concat(inputValue);
-    return newFilterUrl;
-  } else if (call.checked) {
-    var filterValue = call.value;
-    var url = (0, _urlFilterMaker.default)(filterValue);
-    newFilterUrl = "".concat(url).concat(inputValue);
-    return newFilterUrl;
-  }
-  /*getFilterData(newFilterUrl)
-    .then((data) => {
-      container.innerHTML = Card(data).join(" ");
-    })
-    .catch((e) => console.log("This is not workin"));*/
-
-}); //console.log(getFilterData());
-
+    (0, _getFilterData.default)(finalFilterUrl).then(function (data) {
+      container.innerHTML = (0, _Card.default)(data).join(" ");
+    }).catch(function (error) {
+      return console.log(error);
+    });
+  });
+});
 App.append(mainTitle, wrapper);
 wrapper.append(filter, container);
 },{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/urlFilterMaker.js":"../src/utils/urlFilterMaker.js","./utils/getFilterData.js":"../src/utils/getFilterData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -345,7 +289,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50345" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50231" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
