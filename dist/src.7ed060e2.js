@@ -248,6 +248,7 @@ applyBtn.addEventListener("click", function showFilterValue() {
       var filterValue = filter.value;
       filterUrl = (0, _urlFilterMaker.default)(filterValue);
       finalFilterUrl = "".concat(filterUrl).concat(TextValue);
+      console.log(finalFilterUrl);
       return finalFilterUrl;
     }
 

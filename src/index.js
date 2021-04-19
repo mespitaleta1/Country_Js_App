@@ -46,6 +46,7 @@ applyBtn.addEventListener("click", function showFilterValue() {
       let filterValue = filter.value;
       filterUrl = makeUrl(filterValue);
       finalFilterUrl = `${filterUrl}${TextValue}`;
+      console.log(finalFilterUrl);
       return finalFilterUrl;
     }
 
