@@ -147,7 +147,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var filterForm = function filterForm() {
-  var filters = "\n        <form>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"lang/\"/>     Language</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"region/\"/>  Continent</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"name/\"/>    Name</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"capital/\"/> Capital city</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"callingcode/\"/> Calling code</label>\n\n        <input class=\"filter-txt\" type=\"text\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn apply\" type=\"button\" value=\"Filter\"/>\n            <input  class=\"filter-btn clean\" type=\"button\" value=\"Clean\"/>\n        </div>\n        </form>\n    ";
+  var filters = "\n        <form>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"lang/\"/>     Language</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"region/\"/>  Continent</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"name/\"/>    Name</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"capital/\"/> Capital city</label>\n        <label><input type=\"checkbox\" class=\"filter\" value=\"callingcode/\"/> Calling code</label>\n\n        <input class=\"filter-txt\" type=\"text\" placeholder=\"Search\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn apply\" type=\"button\" value=\"Filter\"/>\n            <input  class=\"filter-btn clean\" type=\"button\" value=\"Clear\"/>\n        </div>\n        </form>\n    ";
   return filters;
 };
 
@@ -216,8 +216,6 @@ var _getFilterData = _interopRequireDefault(require("./utils/getFilterData.js"))
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 var App = document.querySelector("#App");
 var mainTitle = document.createElement("div");
 mainTitle.classList.add("main-title");
@@ -229,9 +227,11 @@ container.setAttribute("class", "content-app");
 var filter = document.createElement("div");
 filter.setAttribute("class", "filter-section");
 filter.innerHTML = (0, _filter.default)();
+App.append(mainTitle, wrapper);
+wrapper.append(filter, container);
 var searchInput = filter.querySelector("input.filter-txt");
 var applyBtn = filter.querySelector("input.apply");
-var cleanBtn = filter.querySelector("input.clean"); //getting the filters:
+var clearBtn = filter.querySelector("input.clean"); //getting the filters:
 
 var filters = filter.querySelectorAll("input.filter");
 (0, _getData.default)().then(function (data) {
@@ -239,7 +239,7 @@ var filters = filter.querySelectorAll("input.filter");
 }).catch(function (e) {
   return console.log(e);
 });
-applyBtn.addEventListener("click", function showValue() {
+applyBtn.addEventListener("click", function showFilterValue() {
   var filterUrl;
   var finalFilterUrl;
   var TextValue = searchInput.value;
@@ -248,19 +248,29 @@ applyBtn.addEventListener("click", function showValue() {
       var filterValue = filter.value;
       filterUrl = (0, _urlFilterMaker.default)(filterValue);
       finalFilterUrl = "".concat(filterUrl).concat(TextValue);
-      console.log(_typeof(TextValue));
       return finalFilterUrl;
     }
 
     (0, _getFilterData.default)(finalFilterUrl).then(function (data) {
       container.innerHTML = (0, _Card.default)(data).join(" ");
-    }).catch(function (error) {
-      return console.log(error);
+    }).catch(function (e) {
+      return console.log(e);
     });
   });
 });
-App.append(mainTitle, wrapper);
-wrapper.append(filter, container);
+clearBtn.addEventListener("click", function clean() {
+  searchInput.value = "";
+  filters.forEach(function (filter) {
+    if (filter.checked) {
+      filter.checked = false;
+    }
+  });
+  (0, _getData.default)().then(function (data) {
+    container.innerHTML = (0, _Card.default)(data).join(" ");
+  }).catch(function (e) {
+    return console.log(e);
+  });
+});
 },{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/urlFilterMaker.js":"../src/utils/urlFilterMaker.js","./utils/getFilterData.js":"../src/utils/getFilterData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

@@ -7,11 +7,11 @@ const filterForm = () => {
         <label><input type="checkbox" class="filter" value="capital/"/> Capital city</label>
         <label><input type="checkbox" class="filter" value="callingcode/"/> Calling code</label>
 
-        <input class="filter-txt" type="text" />
+        <input class="filter-txt" type="text" placeholder="Search" />
 
         <div class="filter-btns">
             <input  class="filter-btn apply" type="button" value="Filter"/>
-            <input  class="filter-btn clean" type="button" value="Clean"/>
+            <input  class="filter-btn clean" type="button" value="Clear"/>
         </div>
         </form>
     `;
