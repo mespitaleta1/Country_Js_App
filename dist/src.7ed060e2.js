@@ -127,7 +127,7 @@ exports.default = void 0;
 
 var Card = function Card(countryData) {
   var getTemplateCard = function getTemplateCard(obj) {
-    return "\n        <div class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <span class=\"country-card_capital\">").concat(obj.capital, "</span>\n            <div class=\"country-card_content\">\n              <img class=\"country-card_flag\" src=\"").concat(obj.flag, "\"/>\n\n              <div class=\"country-card_info\">\n                <span class=\"region\"><img src=\"https://i.imgur.com/F8PsJdu.png\"/>").concat(obj.region, "</span>\n                <span class=\"lang\"><img src=\"https://i.imgur.com/A85woq6.png\"/>").concat(obj.languages[0]["iso639_2"], "</span>\n                <span class=\"currency\"><img src=\"https://i.imgur.com/KdvpkCA.png\"/>").concat(obj.currencies[0].code, "</span>\n              </div>\n           </div>\n        </div>");
+    return "\n        <div  id=\"card\" class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <span class=\"country-card_capital\">").concat(obj.capital, "</span>\n            <div class=\"country-card_content\">\n              <img class=\"country-card_flag\" src=\"").concat(obj.flag, "\"/>\n\n              <div class=\"country-card_info\">\n                <span class=\"region\"><img src=\"https://i.imgur.com/F8PsJdu.png\"/>").concat(obj.region, "</span>\n                <span class=\"lang\"><img src=\"https://i.imgur.com/A85woq6.png\"/>").concat(obj.languages[0]["iso639_2"], "</span>\n                <span class=\"currency\"><img src=\"https://i.imgur.com/KdvpkCA.png\"/>").concat(obj.currencies[0].code, "</span>\n              </div>\n           </div>\n        </div>");
   };
 
   var cardView = countryData.map(function (item) {
@@ -163,7 +163,8 @@ exports.default = void 0;
 var API_URL = "https://restcountries.eu/rest/v2/all/";
 
 var getData = function getData() {
-  return fetch(API_URL).then(function (response) {
+  var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : API_URL;
+  return fetch(url).then(function (response) {
     return response.json();
   });
 };
@@ -185,7 +186,7 @@ var makeUrl = function makeUrl(filterField) {
 
 var _default = makeUrl;
 exports.default = _default;
-},{}],"../src/utils/getFilterData.js":[function(require,module,exports) {
+},{}],"../src/template/modal.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -193,13 +194,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var getFilterData = function getFilterData(newUrl) {
-  return fetch(newUrl).then(function (response) {
-    return response.json();
-  });
+var Modal = function Modal(countryData) {
+  return "\n        <div class=\"body-modal\">\n           <span>Domain: ".concat(countryData.topLevelDomain, "</span>\n            <span>Acronym: ").concat(countryData.alpha3Code, "</span>\n            <span>Full name: ").concat(countryData.altSpellings[0], "</span>\n            <span>Language: ").concat(countryData.languages[0]["name"], "</span>\n            <span>Subregion: ").concat(countryData.subregion, "</span>\n            <span>Population: ").concat(countryData.population, "</span>\n            <span>Border with: ").concat(countryData.borders, "</span>         \n        </div>\n    ");
 };
 
-var _default = getFilterData;
+var _default = Modal;
 exports.default = _default;
 },{}],"../src/index.js":[function(require,module,exports) {
 "use strict";
@@ -212,7 +211,7 @@ var _getData = _interopRequireDefault(require("./utils/getData.js"));
 
 var _urlFilterMaker = _interopRequireDefault(require("./utils/urlFilterMaker.js"));
 
-var _getFilterData = _interopRequireDefault(require("./utils/getFilterData.js"));
+var _modal = _interopRequireDefault(require("./template/modal.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -227,18 +226,16 @@ container.setAttribute("class", "content-app");
 var filter = document.createElement("div");
 filter.setAttribute("class", "filter-section");
 filter.innerHTML = (0, _filter.default)();
-App.append(mainTitle, wrapper);
+var modalContainer = document.createElement("div");
+modalContainer.setAttribute("class", "modal-container");
+App.append(mainTitle, wrapper, modalContainer);
 wrapper.append(filter, container);
+render();
 var searchInput = filter.querySelector("input.filter-txt");
 var applyBtn = filter.querySelector("input.apply");
 var clearBtn = filter.querySelector("input.clean"); //getting the filters:
 
 var filters = filter.querySelectorAll("input.filter");
-(0, _getData.default)().then(function (data) {
-  container.innerHTML = (0, _Card.default)(data).join(" ");
-}).catch(function (e) {
-  return console.log(e);
-});
 applyBtn.addEventListener("click", function showFilterValue() {
   var filterUrl;
   var finalFilterUrl;
@@ -248,31 +245,44 @@ applyBtn.addEventListener("click", function showFilterValue() {
       var filterValue = filter.value;
       filterUrl = (0, _urlFilterMaker.default)(filterValue);
       finalFilterUrl = "".concat(filterUrl).concat(TextValue);
-      console.log(finalFilterUrl);
       return finalFilterUrl;
     }
 
-    (0, _getFilterData.default)(finalFilterUrl).then(function (data) {
-      container.innerHTML = (0, _Card.default)(data).join(" ");
-    }).catch(function (e) {
-      return console.log(e);
-    });
+    render(finalFilterUrl);
   });
 });
-clearBtn.addEventListener("click", function clean() {
+clearBtn.addEventListener("click", function cleanFilter() {
   searchInput.value = "";
   filters.forEach(function (filter) {
     if (filter.checked) {
       filter.checked = false;
     }
   });
-  (0, _getData.default)().then(function (data) {
-    container.innerHTML = (0, _Card.default)(data).join(" ");
+  render();
+});
+
+function render(filterUrl) {
+  (0, _getData.default)(filterUrl).then(function (data) {
+    container.innerHTML = (0, _Card.default)(data).join(" "); //el render del las card principal;
+
+    var countryCard = container.querySelectorAll("div.main-card"); //toma cada una de las tarjetas principales
+
+    countryCard.forEach(function (card) {
+      card.addEventListener("click", function (e) {
+        var countryName = e.currentTarget.children[0].innerText;
+        var countryData = data.find(function (item) {
+          return item.name === countryName;
+        });
+        var bodyModal = (0, _modal.default)(countryData);
+        console.log(bodyModal);
+        modalContainer.innerHTML = bodyModal;
+      });
+    });
   }).catch(function (e) {
     return console.log(e);
   });
-});
-},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/urlFilterMaker.js":"../src/utils/urlFilterMaker.js","./utils/getFilterData.js":"../src/utils/getFilterData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+}
+},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/urlFilterMaker.js":"../src/utils/urlFilterMaker.js","./template/modal.js":"../src/template/modal.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

@@ -2,7 +2,7 @@ import Card from "./template/Card";
 import filterForm from "./utils/filter.js";
 import getData from "./utils/getData.js";
 import makeUrl from "./utils/urlFilterMaker.js";
-import getFilterData from "./utils/getFilterData.js";
+import Modal from "./template/modal.js";
 
 const App = document.querySelector("#App");
 
@@ -20,8 +20,13 @@ const filter = document.createElement("div");
 filter.setAttribute("class", "filter-section");
 filter.innerHTML = filterForm();
 
-App.append(mainTitle, wrapper);
+const modalContainer = document.createElement("div");
+modalContainer.setAttribute("class", "modal-container");
+
+App.append(mainTitle, wrapper, modalContainer);
 wrapper.append(filter, container);
+
+render();
 
 const searchInput = filter.querySelector("input.filter-txt");
 const applyBtn = filter.querySelector("input.apply");
@@ -29,12 +34,6 @@ const clearBtn = filter.querySelector("input.clean");
 
 //getting the filters:
 const filters = filter.querySelectorAll("input.filter");
-
-getData()
-  .then((data) => {
-    container.innerHTML = Card(data).join(" ");
-  })
-  .catch((e) => console.log(e));
 
 applyBtn.addEventListener("click", function showFilterValue() {
   let filterUrl;
@@ -46,19 +45,13 @@ applyBtn.addEventListener("click", function showFilterValue() {
       let filterValue = filter.value;
       filterUrl = makeUrl(filterValue);
       finalFilterUrl = `${filterUrl}${TextValue}`;
-      console.log(finalFilterUrl);
       return finalFilterUrl;
     }
-
-    getFilterData(finalFilterUrl)
-      .then((data) => {
-        container.innerHTML = Card(data).join(" ");
-      })
-      .catch((e) => console.log(e));
+    render(finalFilterUrl);
   });
 });
 
-clearBtn.addEventListener("click", function clean() {
+clearBtn.addEventListener("click", function cleanFilter() {
   searchInput.value = "";
   filters.forEach((filter) => {
     if (filter.checked) {
@@ -66,9 +59,25 @@ clearBtn.addEventListener("click", function clean() {
     }
   });
 
-  getData()
+  render();
+});
+
+function render(filterUrl) {
+  getData(filterUrl)
     .then((data) => {
-      container.innerHTML = Card(data).join(" ");
+      container.innerHTML = Card(data).join(" "); //el render del las card principal;
+
+      let countryCard = container.querySelectorAll("div.main-card"); //toma cada una de las tarjetas principales
+
+      countryCard.forEach((card) => {
+        card.addEventListener("click", (e) => {
+          let countryName = e.currentTarget.children[0].innerText;
+          const countryData = data.find((item) => item.name === countryName);
+          const bodyModal = Modal(countryData);
+          console.log(bodyModal);
+          modalContainer.innerHTML = bodyModal;
+        });
+      });
     })
     .catch((e) => console.log(e));
-});
+}
