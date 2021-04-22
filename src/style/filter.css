@@ -6,6 +6,7 @@ form {
 
 form label {
   margin: 5px;
+  width: 120px;
 }
 
 .filter-txt,
@@ -23,6 +24,12 @@ form label {
   font-family: "Inter", sans-serif;
 }
 
+.filter-btns {
+  width: 220px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .filter-btn {
   width: 100px;
   padding: 10px 25px; /*5px*/
@@ -35,4 +42,8 @@ form label {
   background: #6767ff; /*#7f7fd5*/
   font-family: "Inter", sans-serif;
   box-shadow: 0px 2px 4px rgb(0 0 0 / 20%);
+}
+
+.filter-btn:hover {
+  transform: scale(1.1);
 }

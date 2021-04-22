@@ -53,5 +53,12 @@
   z-index: 5555;
 }
 
+/*responsive*/
+@media (max-width: 600px) {
+  .body-modal {
+    margin: 100px auto;
+  }
+}
+
 
 /*# sourceMappingURL=/modal.434ee502.css.map */
