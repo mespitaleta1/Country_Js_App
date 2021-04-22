@@ -1,0 +1,38 @@
+form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+form label {
+  margin: 5px;
+}
+
+.filter-txt,
+.filter-btn {
+  width: 200px;
+  margin-top: 20px;
+}
+
+.filter-txt {
+  border: transparent;
+  outline: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  padding-left: 14px;
+  font-family: "Inter", sans-serif;
+}
+
+.filter-btn {
+  width: 100px;
+  padding: 10px 25px; /*5px*/
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 18px; /*14px*/
+  border: 0; /*solid transparent*/
+  color: #fff;
+  background: #6767ff; /*#7f7fd5*/
+  font-family: "Inter", sans-serif;
+  box-shadow: 0px 2px 4px rgb(0 0 0 / 20%);
+}
