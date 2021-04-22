@@ -195,7 +195,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var Modal = function Modal(countryData) {
-  return "\n        <div class=\"body-modal\">\n           <span>Domain: ".concat(countryData.topLevelDomain, "</span>\n            <span>Acronym: ").concat(countryData.alpha3Code, "</span>\n            <span>Full name: ").concat(countryData.altSpellings[0], "</span>\n            <span>Language: ").concat(countryData.languages[0]["name"], "</span>\n            <span>Subregion: ").concat(countryData.subregion, "</span>\n            <span>Population: ").concat(countryData.population, "</span>\n            <span>Border with: ").concat(countryData.borders, "</span>         \n        </div>\n    ");
+  return "\n        <div class=\"body-modal\">\n            <button class=\"close-modal\">&times</button>\n            <span>Domain: ".concat(countryData.topLevelDomain, "</span>\n            <span>Acronym: ").concat(countryData.alpha3Code, "</span>\n            <span>Full name: ").concat(countryData.altSpellings[0], "</span>\n            <span>Language: ").concat(countryData.languages[0]["name"], "</span>\n            <span>Subregion: ").concat(countryData.subregion, "</span>\n            <span>Population: ").concat(countryData.population, "</span>\n            <span>Border with: ").concat(countryData.borders, "</span>         \n        </div>\n    ");
 };
 
 var _default = Modal;
@@ -263,10 +263,8 @@ clearBtn.addEventListener("click", function cleanFilter() {
 
 function render(filterUrl) {
   (0, _getData.default)(filterUrl).then(function (data) {
-    container.innerHTML = (0, _Card.default)(data).join(" "); //el render del las card principal;
-
-    var countryCard = container.querySelectorAll("div.main-card"); //toma cada una de las tarjetas principales
-
+    container.innerHTML = (0, _Card.default)(data).join(" ");
+    var countryCard = container.querySelectorAll("div.main-card");
     countryCard.forEach(function (card) {
       card.addEventListener("click", function (e) {
         var countryName = e.currentTarget.children[0].innerText;
@@ -276,6 +274,11 @@ function render(filterUrl) {
         var bodyModal = (0, _modal.default)(countryData);
         console.log(bodyModal);
         modalContainer.innerHTML = bodyModal;
+        modalContainer.classList.add("visible");
+        var closeModal = modalContainer.querySelector("button.close-modal");
+        closeModal.addEventListener("click", function () {
+          modalContainer.classList.remove("visible");
+        });
       });
     });
   }).catch(function (e) {

@@ -65,9 +65,9 @@ clearBtn.addEventListener("click", function cleanFilter() {
 function render(filterUrl) {
   getData(filterUrl)
     .then((data) => {
-      container.innerHTML = Card(data).join(" "); //el render del las card principal;
+      container.innerHTML = Card(data).join(" ");
 
-      let countryCard = container.querySelectorAll("div.main-card"); //toma cada una de las tarjetas principales
+      let countryCard = container.querySelectorAll("div.main-card");
 
       countryCard.forEach((card) => {
         card.addEventListener("click", (e) => {
@@ -76,6 +76,13 @@ function render(filterUrl) {
           const bodyModal = Modal(countryData);
           console.log(bodyModal);
           modalContainer.innerHTML = bodyModal;
+          modalContainer.classList.add("visible");
+
+          const closeModal = modalContainer.querySelector("button.close-modal");
+
+          closeModal.addEventListener("click", () => {
+            modalContainer.classList.remove("visible");
+          });
         });
       });
     })
