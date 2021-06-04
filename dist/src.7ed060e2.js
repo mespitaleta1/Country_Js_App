@@ -117,113 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../src/template/Card.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var Card = function Card(countryData) {
-  var getTemplateCard = function getTemplateCard(obj) {
-    return "\n        <div class=\"main-card\">\n            <h3 class=\"country-card_name\">".concat(obj.name, "</h3> \n            <span class=\"country-card_capital\">").concat(obj.capital, "</span>\n            <div class=\"country-card_content\">\n              <img class=\"country-card_flag\" src=\"").concat(obj.flag, "\"/>\n\n              <div class=\"country-card_info\">\n                <span class=\"region\"><img src=\"https://i.imgur.com/F8PsJdu.png\"/>").concat(obj.region, "</span>\n                <span class=\"lang\"><img src=\"https://i.imgur.com/A85woq6.png\"/>").concat(obj.languages[0]["iso639_2"], "</span>\n                <span class=\"currency\"><img src=\"https://i.imgur.com/KdvpkCA.png\"/>").concat(obj.currencies[0].code, "</span>\n              </div>\n           </div>\n        </div>");
-  };
-
-  var cardView = countryData.map(function (item) {
-    return getTemplateCard(item);
-  });
-  return cardView;
-};
-
-var _default = Card;
-exports.default = _default;
-},{}],"../src/utils/filter.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var filterForm = function filterForm() {
-  var filters = "\n        <form>\n        <label><input type=\"checkbox\" class=\"lang-field\" value=\"language\"/>  Language</label>\n        <label><input type=\"checkbox\" class=\"region-field\" value=\"continent\"/> Continent</label>\n        <label><input type=\"checkbox\" class=\"name-field\" value=\"name\"/>      Name</label>\n        <label><input type=\"checkbox\" class=\"capital-field\" value=\"capital\"/>   Capital city</label>\n        <label><input type=\"checkbox\" class=\"call-field\" value=\"callCode\"/>  Calling code</label>\n\n        <input class=\"filter-txt\" type=\"text\" />\n\n        <div class=\"filter-btns\">\n            <input  class=\"filter-btn apply\" type=\"button\" value=\"Filter\"/>\n            <input  class=\"filter-btn clean\" type=\"button\" value=\"Clean\"/>\n        </div>\n        </form>\n    ";
-  return filters;
-};
-
-var _default = filterForm;
-exports.default = _default;
-},{}],"../src/utils/getData.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var API_URL = "https://restcountries.eu/rest/v2/all/";
-
-var getData = function getData() {
-  return fetch(API_URL).then(function (response) {
-    return response.json();
-  });
-};
-
-var _default = getData;
-exports.default = _default;
-},{}],"../src/utils/urlFilterMaker.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var BASE_API_URL = "https://restcountries.eu/rest/v2/";
-var allCountries = "all/";
-var lang = "lang/";
-var continent = "region/";
-var name = "name/";
-var capital = "capital/";
-var call = "callingCode/";
-
-var makeUrl = function makeUrl(filter) {
-  var useApi = "";
-
-  if (filter === "language") {
-    useApi = "".concat(BASE_API_URL).concat(lang);
-  } else if (filter === "continent") {
-    useApi = "".concat(BASE_API_URL).concat(continent);
-  } else if (filter === "name") {
-    useApi = "".concat(BASE_API_URL).concat(name);
-  } else if (filter === "capital") {
-    useApi = "".concat(BASE_API_URL).concat(capital);
-  } else if (filter === "callCode") {
-    useApi = "".concat(BASE_API_URL).concat(call);
-  } else {
-    useApi = "".concat(BASE_API_URL).concat(allCountries);
-  }
-
-  return useApi;
-};
-
-var _default = makeUrl;
-exports.default = _default;
-},{}],"../src/utils/getFilterData.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var getFilterData = function getFilterData(newUrl) {
-  return fetch(newUrl).then(function (response) {
-    return response.json();
-  });
-};
-
-var _default = getFilterData;
-exports.default = _default;
-},{}],"../src/index.js":[function(require,module,exports) {
+})({"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _Card = _interopRequireDefault(require("./template/Card"));
@@ -317,7 +211,7 @@ applyBtn.addEventListener("click", function showValue() {
 
 App.append(mainTitle, wrapper);
 wrapper.append(filter, container);
-},{"./template/Card":"../src/template/Card.js","./utils/filter.js":"../src/utils/filter.js","./utils/getData.js":"../src/utils/getData.js","./utils/urlFilterMaker.js":"../src/utils/urlFilterMaker.js","./utils/getFilterData.js":"../src/utils/getFilterData.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -345,7 +239,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50345" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61296" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
