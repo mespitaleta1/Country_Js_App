@@ -11,14 +11,6 @@ Finally this Single Page Aplication gives to you a completed view of the world, 
 
 ## Building the Project
 
-As previously said, this project was implemented with technologies as JavaScript and with the use and request of a APIs. 
-
-This is a project in build, so please feel free if you have comments 
-
-or suggestions to improve it. 
-
-
-
-
+As previously said, this project was implemented with technologies as JavaScript and with the use and request of a APIs. This is a project in build, so please feel free if you have comments or suggestions to improve it. 
 
 Thanks a lot for checking out this project I hope you enjoy it!
